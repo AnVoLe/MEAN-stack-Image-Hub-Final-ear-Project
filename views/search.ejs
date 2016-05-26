@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ImageHub</title>
+
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+<style type="text/css">
+    .bs-example{
+      margin: 20px;
+    }
+  body { background: #000001 !important;
+      margin-top:20px;
+}
+  footer {
+          float: right;
+          height: 35px;
+          margin: 0px 50px 0px 0px;
+          color: #000;
+          text-align: right;
+          padding: 10px 30px;
+          width: 180px;
+      }
+p.user {
+    width: 320px;
+    padding: 5px;
+    margin: 0px;
+    background:white;
+}
+.comments{
+    border: 2px solid;
+    padding: 5px;
+    border-top-right-radius: 2em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/stylesheets/themeline.css">
+<script src="/javascripts/angular.min.js"></script>
+<script src="/javascripts/search.js"></script>
+<link rel="shortcut icon" href="/images/logo1.png">
+
+</head>
+
+
+<body ng-app="ImageHub">
+
+<div ng-controller="MainCtrl" >
+<div class="container">
+  <div class="page-header">
+        <ul class="nav nav-tabs">
+          <li><a href="/logout">Logout</a></li>
+          <li><a href="/profile">User Account</a></li>
+          <li><a href="/themeline">ThemeLine</a></li>
+
+        </ul>
+  </div>
+  <div class="jumbotron text-center">
+    <h1><u>{{title}}</u></h1>
+  </div>
+  <div>
+ <form class="navbar-form navbar-left" role="search" name="search" ng-submit="search_fn(value)">
+  <div class="form-group">
+  
+        <select class="form-control" name="category" ng-model="value">
+          <option value="theme">Theme</option>
+          <option value="picture">Picture</option>
+          <option value="user">User</option>
+        </select>
+  </div>
+    
+        
+    <div class="input-group">
+      
+      
+
+      <input type="text" class="form-control" placeholder="Search this site" ng-model="searchtext">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </span>
+    </div>
+  
+  </form>
+</div>
+
+<br>
+<div>
+ <ul class="row">
+    <div ng-repeat="picture in pictures" class="col-md-6" ng-if="picture.theme==searchtext && value=='theme'"><br>
+      
+    <li>
+        <figure>
+            <img ng-src="/images/{{picture.path}}" class="img-rounded" alt="picture" height="200" width="500"><br>
+            <figcaption>
+                <h4 style="color:white">{{picture.caption}}</h4>
+        </figcaption>
+        </figure>
+    </li>      
+  </div>
+</ul>
+</div>
+
+<ul class="row">
+    <div ng-repeat="picture in pictures" class="col-md-6" ng-if="picture.caption==searchtext && value=='picture'"><br>
+    <li>
+        <figure>
+            <img ng-src="/images/{{picture.path}}" class="img-rounded" alt="picture" height="200" width="500"><br>
+            <figcaption>
+                <h4 style="color:white">{{picture.caption}}</h4>
+        </figcaption>
+        </figure>
+    </li>      
+  </div>
+</ul>
+
+<div ng-repeat="user in users" ng-if="(user.local.fname==searchtext || user.local.email==searchtext) && value=='user'">
+  <div class="jumbotron">
+    <div class="row">
+        <div class="col-md-8">
+          <pre><b>Name:</b> {{user.local.fname}}</pre><br>
+          <pre><b>Username:</b> {{user.local.username}}</pre><br>
+          <pre><b>Email :</b>{{user.local.email}}</pre><br>
+          <pre><b>Gender:</b> {{user.local.gender}}</pre><br>
+          <pre><b>Mobile No.:</b> {{user.local.mob}}</pre><br>
+          
+
+          <pre><b>Credits available:</b> {{user.credits.available}}</pre><br>
+          <pre><b>Credits Used:</b> {{user.credits.used}}</pre><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+
+</div>
+</div>
+</body>
+</html>

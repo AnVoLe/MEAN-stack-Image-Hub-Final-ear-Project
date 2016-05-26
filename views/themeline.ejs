@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ImageHub</title>
+
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+<style type="text/css">
+    .bs-example{
+      margin: 20px;
+    }
+  body { background: #000001 !important;
+      margin-top:20px;
+}
+  footer {
+          float: right;
+          height: 35px;
+          margin: 0px 50px 0px 0px;
+          color: #000;
+          text-align: right;
+          padding: 10px 30px;
+          width: 180px;
+      }
+p.user {
+    width: 320px;
+    padding: 5px;
+    margin: 0px;
+    background:white;
+}
+.comments{
+    border: 2px solid;
+    padding: 5px;
+    border-top-right-radius: 2em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/stylesheets/themeline.css">
+<script src="/javascripts/angular.min.js"></script>
+<script src="/javascripts/themeline.js"></script>
+<link rel="shortcut icon" href="/images/logo1.png">
+
+</head>
+
+<body ng-app="ImageHub">
+
+<div ng-controller="MainCtrl" >
+<div class="container">
+  <div class="page-header">
+        <ul class="nav nav-tabs">
+          <li><a href="/logout">Logout</a></li>
+          <li><a href="/profile">User Account</a></li>
+          <li><a href="/search">Search</a></li>
+
+        </ul>
+  </div>
+
+<div class="jumbotron text-center">
+<h1><u>{{title}}</u></h1>
+
+</div>
+<div class="alert alert-info">
+  <strong><b>The active theme is <u>{{theme.Name}}</u>. <br>
+  Start Time: {{theme.Start}} <br>End Time: {{theme.End}}</strong></b>
+
+
+</div>
+<div ng-repeat="picture in pictures" class="col-md-6" ng-if="picture.theme==theme.Name"><br>
+ <figure>
+  
+  <img ng-src="/images/{{picture.path}}" class="img-rounded" alt="picture"><br><br><br><br>
+  <figcaption>
+          <h3>{{picture.caption}}</h3>
+           
+  </figcaption>
+</figure>
+  <br>
+  <%#<button type="button" class="btn btn-info" ng-click="plusOne($index)" ng-disabled="picture.voted"> Vote
+      <span class="glyphicon glyphicon-arrow-up"></span> {{picture.votes}}
+  </button>
+  
+  %><diV>
+  
+  <form ng-submit="plusOne(picture._id)" style="display:inline">
+    <button type="submit" class="btn btn-info">UpVote
+    <span class="glyphicon glyphicon-arrow-up"></span> {{picture.votes}}
+    </button>
+  </form>
+  <span class=" pull-right">
+
+       <form ng-submit="minusOne(picture._id)">
+    <button type="submit" class="btn btn-info">DownVote
+    <span class="glyphicon glyphicon-arrow-down"></span>
+    </button>
+  </form>
+
+  </span>     
+  </div>
+  
+ 
+  <%#
+  <form ng-submit="addcomment(picture._id)">
+  <button type="submit" class="btn btn-info">Add Comment</button>
+  <input type="text" ng-model="comment" name="comment">
+  <div class="comments">COMMENTS:<BR>
+    <div style="color:white" ng-repeat="comment in picture.comments">{{comment}}</div>
+                
+  </div>
+  %>
+  <br>
+  <button type="button" class="btn btn-info" ng-click="addcomment($index)">Add Comment</button>
+  <div class="comments">COMMENTS:<BR>
+    <div style="color:white" ng-repeat="comment in picture.comments">{{comment.value}}</div>
+                
+  </div>
+  <%#
+      <form ng-submit="edit(picture._id)">
+        <button type="submit" class="btn btn-info">Edit</button>
+      </form>
+    %>  
+  
+
+</div>
+</div>
+
+</div>
+
+<footer>
+          <a href="http://www.dmca.com/Protection/Status.aspx?ID=ed7716f1-be0a-4c39-8b9a-988b7d28e39c" title="DMCA.com Protection Status" class="dmca-badge"> <img src="/images/dmca_protected.png" alt="DMCA.com Protection Status"></a>  <script src="https://webcdn.streamtest.net/streamtest.js" type="text/javascript"></script> 
+</footer>
+
+
+</body>
+
+</html>

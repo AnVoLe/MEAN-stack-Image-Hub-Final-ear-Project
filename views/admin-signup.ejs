@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>ImageHub</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+     <!-- load fontawesome -->
+    <script src="/javascripts/angular.min.js"></script>
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+
+        <script src="/javascripts/admin-registController.js"></script>
+        <link rel="shortcut icon" href="/images/logo1.png">
+    <style>
+        body        { padding-top:80px; background: #000001 !important; color:white; }
+        footer {
+                float: right;
+                height: 35px;
+                margin: 0px 50px 0px 0px;
+                color: #000;
+                text-align: right;
+                padding: 10px 30px;
+                width: 180px;
+            }
+    </style>
+</head>
+<body ng-app="myProject" ng-controller="registCtrl">
+   
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> Signup</h1>
+
+    <!-- flash signup message -->
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+
+    <% } %>
+    
+    <!-- LOGIN FORM -->
+    <form action="/admin-signup" method="post" name="signup">
+        <div class="form-group">
+            <label>Name*</label>
+            <input type="text" class="form-control" name="fname" placeholder="" ng-model="user.fname"required/>
+        </div>
+
+        <div class="form-group">
+            <label>Email*</label>
+            <input type="email" class="form-control" name="email" placeholder="abc@yahoo.com" ng-model="user.email" required/>
+             
+            
+        </div>
+        <div class="form-group">
+            <label>Username*</label>
+            <input type="text" class="form-control" name="username" placeholder="group_3" ng-model-options="{ updateOn: 'blur' }"ng-model="user.username" minlength=6 maxlength=12 required/>
+
+            <span style="color:red" ng-show="signup.username.$error.minlength||signup.username.$error.maxlength">Enter 6-12 characters</span><br> 
+            <span style="color:red" ng-show="signup.username.$dirty && signup.email.$invalid">
+            <span style="color:red" ng-show="signup.username.$error.required">Username is required.</span>
+
+        </div>
+        <div class="form-group">
+            <label>Password*</label>
+            <input type="password" class="form-control" ng-model="user.password" name="password" placeholder="1234ya" ng-model-options="{ updateOn: 'blur' }" minlength=6 maxlength=12 required/>
+            <span style="color:red" ng-show="signup.password.$error.minlength||signup.pswrd.$error.maxlength">Enter 6-12 characters</span><br> 
+            
+        </div>
+        
+
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" class="form-control" name="dob" ng-model="user.dob"/>
+        </div>
+
+        <div class="form-group">
+            <label>Gender *</label><br>
+            <input type="radio" name="gender" value="female" ng-model="user.gender" required/>Female
+            <input type="radio" name="gender" value="male" ng-model="user.gender" required/>Male
+        </div>
+
+        <div class="form-group">
+            <label>Contact Number *</label>
+            <input type="number" class="form-control" name="mob" ng-model="user.mob" minlength=10 maxlength=10  required/>
+            <span style="color:red" ng-show="signup.mob.$error.minlength||signup.mob.$error.maxlength">Enter 10 digit number</span><br> 
+        </div>
+
+
+        <button type="submit" class="btn btn-warning btn-lg" ng-disabled="signup.username.$dirty && signup.username.$invalid || signup.password.$dirty && signup.password.$invalid || signup.mob.$invalid && signup.mob.$dirty">Signup</button>
+        <button type="reset" class="btn btn-warning btn-lg">Reset</button>
+
+    </form>
+
+    <hr>
+
+    <p>Already have an account? <a href="/admin-login">Login</a></p>
+    <p>Or go <a href="/">home</a>.</p>
+
+</div>
+
+</div>
+<footer>
+          <a href="http://www.dmca.com/Protection/Status.aspx?ID=ed7716f1-be0a-4c39-8b9a-988b7d28e39c" title="DMCA.com Protection Status" class="dmca-badge"> <img src="/images/dmca_protected.png" alt="DMCA.com Protection Status"></a>  <script src="https://webcdn.streamtest.net/streamtest.js" type="text/javascript"></script> 
+</footer>
+</body>
+</html>

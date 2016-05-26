@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ImageHub</title>
+<script>
+    response.setHeader( "Cache-Control", "no-store, no-cache, must-revalidate");  //HTTP 1.1
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+    response.setDateHeader ("Expires", -1); //prevents caching at the proxy server
+</script>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+<link rel="stylesheet" href="/stylesheets/font-awesome.min.css">
+<link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+
+<script src="/javascripts/angular.min.js"></script>
+<script src="javascripts/jquery-1.11.3.min.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/lib-typedarrays-min.js"></script>
+<script src="/javascripts/md5.js"></script>
+<script src="/javascripts/photo_gallery.js">
+
+<link class="jsbin" href="/stylesheets/jquery-ui.theme.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="/javascripts/jquery-ui.min.js"></script>
+<style type="text/css">
+    .bs-example{
+        margin: 20px;
+    }
+    body { 
+        background: #000001 !important;
+        
+        }
+
+      ul {         
+          padding:0 0 0 0;
+          margin:0 0 0 0;
+      }
+      ul li {     
+          list-style:none;
+          margin-bottom:25px;           
+      }
+      ul li img {
+          cursor: pointer;
+
+      }
+      footer {
+    float: right;
+    height: 35px;
+    margin: 0px 50px 0px 0px;
+    color: #000;
+    text-align: right;
+    padding: 10px 30px;
+    width: 180px;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+      
+      
+</style>
+
+
+<link rel="shortcut icon" href="/images/logo1.png" />
+<script src="/javascripts/profile.js"></script>
+<script>
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+uservalue="<%=user._id%>";
+</script>
+
+</head>
+
+<body ng-app="ImageHub">
+<div class="container" ng-controller="MainCtrl" >
+  <div class="page-header">
+        <ul class="nav nav-tabs">
+          <li><a href="/logout">Logout</a></li>
+          <li><a href="/themeline">ThemeLine</a></li>
+          <li><a href="/edit">Picture Editor</a></li>
+
+
+        </ul>
+  </div>
+  <% if (message.length > 0) { %>
+        <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+
+<div class="jumbotron text-center">
+    <div class="row">
+        <div class="col-md-8">
+
+        <h1>User Account</h1>
+    
+        </div>
+        <div class="col-md-4">
+            <img align="left" id="blah" src="#" alt="profilePicture" />
+            <input align="left" type='file' onchange="readURL(this);" />
+        </div>
+    </div>
+
+</div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jumbotron"> 
+                    <h2><span class="fa fa-user"></span> User Properties</h2>
+
+                        <p>
+                            <strong>Name</strong>: <%= user.local.fname %><br>
+                            <strong>email</strong>: <%= user.local.email %><br>
+                            <strong>Username</strong>: <%= user.local.username %>
+
+                        </p>
+            </div>
+    
+        </div>
+        <div class="col-md-4">
+            <div class="jumbotron">
+            <h2>Credit Points</h2>
+            <h4>
+            Available Credits:<%=user.credits.available%><br>
+            Credits Used:<%=user.credits.used%><br>
+            Total Credits:<%=user.credits.total%>   
+            </h4>
+             <button type="button" class="btn btn-info"><a href="/browser"  style="display:inline;color:white">Browse for Rewards</a></button>
+             <button type="button" class="btn btn-info" id="myBtn">Activity</button>
+
+<!-- Trigger/Open The Modal -->
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">×</span>
+    <p>
+      
+        Pictures Upvoted:<br>
+        <div ng-repeat="picture in picturesall">
+          <div ng-repeat="voteuser in picture.voted" ng-if="voteuser=='<%=user._id%>'" style="display:inline">
+              
+                <img ng-src="/images/{{picture.path}} " height="100" width="200">
+              
+          </div>
+        </div> 
+    </p>
+    <p>
+      
+        Gifts claimed:<br>
+        <div ng-repeat="gift in gifts">
+          <div ng-repeat="claimer in gift.c_users" ng-if="claimer=='<%=user._id%>'" style="display:inline">
+              
+                <img ng-src="/images/{{gift.path}} " height="100" width="200">
+              
+          </div>
+        </div> 
+    </p>
+  </div>
+
+</div>
+            </div>      
+        </div>
+        
+    </div>
+<div><h2 style="color:white">User Gallery</h2></div>
+    <ul class="row">
+        
+    <div ng-repeat="picture in pictures" class="col-md-6"><br>
+    <li>
+        <figure>
+            <img ng-src="/images/{{picture.path}}" class="img-rounded" alt="picture" height="200" width="500"><br>
+            <figcaption>
+                <h4 style="color:white">{{picture.caption}}</h4>
+                <button type="button" class="btn btn-info" ng-click="deletePicture(picture._id)"> DELETE </button>
+        </figcaption>
+        </figure>
+    </li>      
+    </div>
+</ul>
+
+<br><Br><BR>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-8">
+
+
+<form action="/profile" name="fileupload" method="post">
+  <b><input type="file" name="uploadfile" accept="image/*" id="holder" onchange="generatehash(this);"/><br>
+  <span>Enter Caption for the uploading picture:<input type="text" name="caption"> <br><br>
+  Select The most appropriate theme for the uploading picture *</span>
+  <select name="themeselect" id="themeselect">
+      <option ng-repeat="theme in themes" value="{{theme.Name}}">{{theme.Name}}</option>
+  </select> 
+  <br><br>
+  <button type="submit" class="btn btn-info"><span class="fa fa-camera-retro fa-lg">Upload</i></button>
+  <input type="text" id="value" value="" style="visibility: hidden;" name="hashval">
+</div>
+</div></b>
+</div>
+</form>
+  
+
+   
+
+
+</div>
+<script>
+function generatehash(input) {
+  
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var binary = e.target.result;
+                var md5 = CryptoJS.MD5(binary).toString();
+                $('#value')
+                    .attr('value', md5);
+            };
+
+            reader.readAsBinaryString(input.files[0]);
+        }
+    }
+
+
+    // Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+    
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
+
+
+</script>
+          <footer>
+          <a href="http://www.dmca.com/Protection/Status.aspx?ID=ed7716f1-be0a-4c39-8b9a-988b7d28e39c" title="DMCA.com Protection Status" class="dmca-badge"> <img src="/images/dmca_protected.png" alt="DMCA.com Protection Status"></a>  <script src="https://webcdn.streamtest.net/streamtest.js" type="text/javascript"></script> 
+        </footer>
+
+
+</body>
+</html>

